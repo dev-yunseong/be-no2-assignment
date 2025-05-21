@@ -3,8 +3,11 @@ package dev.yunseong.beno2assignment.controller;
 import dev.yunseong.beno2assignment.dto.ScheduleRequestDto;
 import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
 import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
+import dev.yunseong.beno2assignment.exception.AuthException;
 import dev.yunseong.beno2assignment.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +48,10 @@ public class ScheduleController {
     @DeleteMapping("/{scheduleId}")
     public void deleteSchedule(@PathVariable Long scheduleId, @RequestBody String password) {
         scheduleService.deleteSchedule(scheduleId, password);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<String> handleIllegalArgument(AuthException ex) {
+        return new ResponseEntity("password is not correct", HttpStatus.UNAUTHORIZED);
     }
 }

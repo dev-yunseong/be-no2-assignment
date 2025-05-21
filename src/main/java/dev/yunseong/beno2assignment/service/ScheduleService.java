@@ -4,6 +4,7 @@ import dev.yunseong.beno2assignment.domain.Schedule;
 import dev.yunseong.beno2assignment.dto.ScheduleRequestDto;
 import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
 import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
+import dev.yunseong.beno2assignment.exception.AuthException;
 import dev.yunseong.beno2assignment.repository.ScheduleRepository;
 import dev.yunseong.beno2assignment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class ScheduleService {
             scheduleRepository.deleteSchedule(id);
         } else {
             log.info("deleteSchedule: real password={}, password={}", realPassword, password);
-            throw new IllegalArgumentException("Not Authorized");
+            throw new AuthException("Not Authorized");
         }
     }
 
@@ -78,7 +79,7 @@ public class ScheduleService {
 
     public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         if (!scheduleRepository.getPassword(id).equals(scheduleUpdateRequestDto.getPassword())) {
-            throw new IllegalArgumentException("Not Authorized");
+            throw new AuthException("Not Authorized");
         }
         userRepository.updateUserName(
                 scheduleRepository.getSchedule(id).getUserId(),

@@ -30,4 +30,9 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.badRequest().body("예외 발생: " + ex.getMessage());
+    }
 }
