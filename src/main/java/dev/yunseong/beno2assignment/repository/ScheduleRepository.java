@@ -16,11 +16,11 @@ import java.sql.Date;
 @Repository
 public class ScheduleRepository {
     private static final String CREATE_SCHEDULE = "INSERT INTO schedules(title, content, password, uid) VALUES (?, ?, ?, ?)";
-    private static final String GET_SCHEDULE = "SELECT id, title, content, password, createdAt, updatedAt FROM schedules WHERE id = ?";
-    private static final String GET_SCHEDULES = "SELECT id, title, content, password, createdAt, updatedAt FROM schedules ORDER BY updatedAt DESC";
-    private static final String GET_SCHEDULES_BY_UID = "SELECT id, title, content, password, createdAt, updatedAt FROM schedules WHERE uId = ? ORDER BY updatedAt DESC";
-    private static final String GET_SCHEDULES_BY_DATE = "SELECT id, title, content, password, createdAt, updatedAt FROM schedules WHERE DATE(updatedAt) = ? ORDER BY updatedAt DESC";
-    private static final String GET_SCHEDULES_BY_UID_AND_DATE = "SELECT id, title, content, password, createdAt, updatedAt FROM schedules WHERE uId = ? AND DATE(updatedAt) = ? ORDER BY updatedAt DESC";
+    private static final String GET_SCHEDULE = "SELECT id, title, content, password, uid, createdAt, updatedAt FROM schedules WHERE id = ?";
+    private static final String GET_SCHEDULES = "SELECT id, title, content, password, uid, createdAt, updatedAt FROM schedules ORDER BY updatedAt DESC";
+    private static final String GET_SCHEDULES_BY_UID = "SELECT id, title, content, password, uid, createdAt, updatedAt FROM schedules WHERE uId = ? ORDER BY updatedAt DESC";
+    private static final String GET_SCHEDULES_BY_DATE = "SELECT id, title, content, password, uid, createdAt, updatedAt FROM schedules WHERE DATE(updatedAt) = ? ORDER BY updatedAt DESC";
+    private static final String GET_SCHEDULES_BY_UID_AND_DATE = "SELECT id, title, content, password, uid, createdAt, updatedAt FROM schedules WHERE uId = ? AND DATE(updatedAt) = ? ORDER BY updatedAt DESC";
     private static final String UPDATE_SCHEDULE = "UPDATE schedules SET content = ? WHERE id = ?";
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE id = ?";
     private final DBConnector dbConnector;
@@ -59,12 +59,13 @@ public class ScheduleRepository {
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     String password = resultSet.getString("password");
+                    Long userId = resultSet.getLong("uid");
                     LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
                     LocalDateTime updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
                     resultSet.close();
                     preparedStatement.close();
                     connection.close();
-                    return new Schedule(scheduleId, title, content, password, createdAt, updatedAt);
+                    return new Schedule(scheduleId, title, content, password, userId, createdAt, updatedAt);
                 }
             }
         } catch (SQLException e) {
@@ -109,9 +110,10 @@ public class ScheduleRepository {
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     String password = resultSet.getString("password");
+                    Long userId = resultSet.getLong("uid");
                     LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
                     LocalDateTime updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
-                    schedules.add(new Schedule(id, title, content, password, createdAt, updatedAt));
+                    schedules.add(new Schedule(id, title, content, password, userId, createdAt, updatedAt));
                 }
                 resultSet.close();
                 statement.close();
@@ -136,7 +138,7 @@ public class ScheduleRepository {
                     String password = resultSet.getString("password");
                     LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
                     LocalDateTime updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
-                    schedules.add(new Schedule(id, title, content, password, createdAt, updatedAt));
+                    schedules.add(new Schedule(id, title, content, password, userId, createdAt, updatedAt));
                 }
                 resultSet.close();
                 preparedStatement.close();
@@ -159,9 +161,10 @@ public class ScheduleRepository {
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     String password = resultSet.getString("password");
+                    Long userId = resultSet.getLong("uid");
                     LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
                     LocalDateTime updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
-                    schedules.add(new Schedule(id, title, content, password, createdAt, updatedAt));
+                    schedules.add(new Schedule(id, title, content, password, userId, createdAt, updatedAt));
                 }
                 resultSet.close();
                 preparedStatement.close();
@@ -187,7 +190,7 @@ public class ScheduleRepository {
                     String password = resultSet.getString("password");
                     LocalDateTime createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
                     LocalDateTime updatedAt = resultSet.getTimestamp("updatedAt").toLocalDateTime();
-                    schedules.add(new Schedule(id, title, content, password, createdAt, updatedAt));
+                    schedules.add(new Schedule(id, title, content, password, userId, createdAt, updatedAt));
                 }
                 resultSet.close();
                 preparedStatement.close();

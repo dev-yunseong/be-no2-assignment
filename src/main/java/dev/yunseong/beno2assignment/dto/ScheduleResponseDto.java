@@ -12,12 +12,14 @@ public class ScheduleResponseDto {
     private final String content;
     private final String createdAt;
     private final String updatedAt;
+    private final String writerName;
 
-    public ScheduleResponseDto(Schedule schedule) {
+    public ScheduleResponseDto(Schedule schedule, String name) {
         this.id = schedule.getId();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
         this.createdAt = schedule.getCreatedAt().toString();
         this.updatedAt = schedule.getUpdatedAt().toString();
+        this.writerName = name;
     }
 }

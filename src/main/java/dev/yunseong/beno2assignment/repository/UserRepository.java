@@ -23,6 +23,8 @@ public class UserRepository {
             "id, name, email " +
             "FROM users;";
 
+    private static final String GET_USER_BY_ID = "SELECT id, name, email FROM users WHERE id = ?;";
+
     public User createUser(String name, String email) {
         try (Connection connection = dbConnector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS)) {
@@ -61,6 +63,27 @@ public class UserRepository {
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to get users", e);
+        }
+    }
+
+    public User getUserById(Long id) {
+        try (Connection connection = dbConnector.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_BY_ID)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String name = resultSet.getString("name");
+                    String email = resultSet.getString("email");
+                    resultSet.close();
+                    preparedStatement.close();
+                    connection.close();
+                    return new User(id, name, email);
+                } else {
+                    throw new SQLException("Failed to get user by id");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to get user by id", e);
         }
     }
 }

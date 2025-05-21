@@ -12,6 +12,7 @@ public class Schedule {
     private final String title;
     private final String content;
     private final String password;
+    private final Long userId;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 }
