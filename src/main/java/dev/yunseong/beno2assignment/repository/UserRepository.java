@@ -2,6 +2,7 @@ package dev.yunseong.beno2assignment.repository;
 
 import dev.yunseong.beno2assignment.DBConnector;
 import dev.yunseong.beno2assignment.domain.User;
+import dev.yunseong.beno2assignment.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -92,7 +93,7 @@ public class UserRepository {
                     connection.close();
                     return new User(id, name, email);
                 } else {
-                    throw new SQLException("Failed to get user by id");
+                    throw new NotFoundException("Failed to get user by id");
                 }
             }
         } catch (SQLException e) {

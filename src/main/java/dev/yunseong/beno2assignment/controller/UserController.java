@@ -2,6 +2,7 @@ package dev.yunseong.beno2assignment.controller;
 
 import dev.yunseong.beno2assignment.dto.UserRequestDto;
 import dev.yunseong.beno2assignment.dto.UserResponseDto;
+import dev.yunseong.beno2assignment.exception.NotFoundException;
 import dev.yunseong.beno2assignment.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,5 +34,10 @@ public class UserController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return new ResponseEntity("request is not correct", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNonFoundException(NotFoundException ex) {
+        return new ResponseEntity("schedule is not found", HttpStatus.NOT_FOUND);
     }
 }

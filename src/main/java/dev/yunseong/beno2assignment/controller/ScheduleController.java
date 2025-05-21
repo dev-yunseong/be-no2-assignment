@@ -4,6 +4,7 @@ import dev.yunseong.beno2assignment.dto.ScheduleRequestDto;
 import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
 import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
 import dev.yunseong.beno2assignment.exception.AuthException;
+import dev.yunseong.beno2assignment.exception.NotFoundException;
 import dev.yunseong.beno2assignment.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -58,5 +59,10 @@ public class ScheduleController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return new ResponseEntity("request is not correct", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<String> handleNonFoundException(NotFoundException ex) {
+        return new ResponseEntity("schedule is not found", HttpStatus.NOT_FOUND);
     }
 }

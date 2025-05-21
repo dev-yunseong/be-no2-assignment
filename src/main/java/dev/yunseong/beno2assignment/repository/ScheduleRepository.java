@@ -2,11 +2,11 @@ package dev.yunseong.beno2assignment.repository;
 
 import dev.yunseong.beno2assignment.DBConnector;
 import dev.yunseong.beno2assignment.domain.Schedule;
+import dev.yunseong.beno2assignment.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,12 +66,13 @@ public class ScheduleRepository {
                     preparedStatement.close();
                     connection.close();
                     return new Schedule(scheduleId, title, content, password, userId, createdAt, updatedAt);
+                } else {
+                    throw new NotFoundException("Schedule not found");
                 }
             }
         } catch (SQLException e) {
             throw new IllegalArgumentException("Failed to get schedule", e);
         }
-        return null;
     }
 
     public Schedule updateSchedule(Long id, String content) {
