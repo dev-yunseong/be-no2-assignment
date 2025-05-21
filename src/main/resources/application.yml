@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: be-no2-assignment
+  datasource:
+    url: jdbc:mysql://localhost:3306/schedule-database
+    username: root
+    password: rootroot
+    driver-class-name:
+      com.mysql.cj.jdbc.Driver
