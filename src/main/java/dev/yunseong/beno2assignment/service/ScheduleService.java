@@ -3,6 +3,7 @@ package dev.yunseong.beno2assignment.service;
 import dev.yunseong.beno2assignment.domain.Schedule;
 import dev.yunseong.beno2assignment.dto.ScheduleRequestDto;
 import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
+import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
 import dev.yunseong.beno2assignment.repository.ScheduleRepository;
 import dev.yunseong.beno2assignment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,15 +31,6 @@ public class ScheduleService {
     public ScheduleResponseDto getSchedule(Long id) {
         Schedule schedule = scheduleRepository.getSchedule(id);
         return new ScheduleResponseDto(schedule, userRepository.getUserById(schedule.getUserId()).getName());
-    }
-
-    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
-        if (scheduleRepository.getPassword(id).equals(scheduleRequestDto.getPassword())) {
-            Schedule schedule = scheduleRepository.updateSchedule(id, scheduleRequestDto.getContent());
-            return new ScheduleResponseDto(schedule, userRepository.getUserById(schedule.getUserId()).getName());
-        } else {
-            throw new IllegalArgumentException("Not Authorized");
-        }
     }
 
     public void deleteSchedule(Long id, String password) {
@@ -82,5 +74,17 @@ public class ScheduleService {
                 .skip((pageNo - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
+    }
+
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
+        if (!scheduleRepository.getPassword(id).equals(scheduleUpdateRequestDto.getPassword())) {
+            throw new IllegalArgumentException("Not Authorized");
+        }
+        userRepository.updateUserName(
+                scheduleRepository.getSchedule(id).getUserId(),
+                scheduleUpdateRequestDto.getName());
+        Schedule schedule = scheduleRepository.updateSchedule(id, scheduleUpdateRequestDto.getContent());
+
+        return new ScheduleResponseDto(schedule, userRepository.getUserById(schedule.getUserId()).getName());
     }
 }

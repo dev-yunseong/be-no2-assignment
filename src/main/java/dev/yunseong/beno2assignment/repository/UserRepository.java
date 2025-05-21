@@ -25,6 +25,8 @@ public class UserRepository {
 
     private static final String GET_USER_BY_ID = "SELECT id, name, email FROM users WHERE id = ?;";
 
+    private static final String UPDATE_USER_NAME = "UPDATE users SET name = ? WHERE id = ?;";
+
     public User createUser(String name, String email) {
         try (Connection connection = dbConnector.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USER, Statement.RETURN_GENERATED_KEYS)) {
@@ -45,6 +47,18 @@ public class UserRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create user", e);
+        }
+    }
+
+    public User updateUserName(Long id, String name) {
+        try (Connection connection = dbConnector.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_NAME)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+            return getUserById(id);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update user", e);
         }
     }
 

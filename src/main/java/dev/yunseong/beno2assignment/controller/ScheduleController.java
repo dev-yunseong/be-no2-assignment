@@ -2,6 +2,7 @@ package dev.yunseong.beno2assignment.controller;
 
 import dev.yunseong.beno2assignment.dto.ScheduleRequestDto;
 import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
+import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
 import dev.yunseong.beno2assignment.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,13 +37,12 @@ public class ScheduleController {
     }
 
     @PutMapping("/{scheduleId}")
-    public ScheduleResponseDto updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleRequestDto scheduleRequestDto) {
-        return scheduleService.updateSchedule(scheduleId, scheduleRequestDto);
+    public ScheduleResponseDto updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
+        return scheduleService.updateSchedule(scheduleId, scheduleUpdateRequestDto);
     }
 
     @DeleteMapping("/{scheduleId}")
     public void deleteSchedule(@PathVariable Long scheduleId, @RequestBody String password) {
         scheduleService.deleteSchedule(scheduleId, password);
     }
-
 }
