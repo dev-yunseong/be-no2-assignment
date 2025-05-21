@@ -5,6 +5,7 @@ import dev.yunseong.beno2assignment.dto.ScheduleResponseDto;
 import dev.yunseong.beno2assignment.dto.ScheduleUpdateRequestDto;
 import dev.yunseong.beno2assignment.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public class ScheduleController {
 
 
     @PostMapping("")
-    public ScheduleResponseDto createSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+    public ScheduleResponseDto createSchedule(@Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
         return scheduleService.createSchedule(scheduleRequestDto);
     }
 
@@ -37,7 +38,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/{scheduleId}")
-    public ScheduleResponseDto updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
+    public ScheduleResponseDto updateSchedule(@PathVariable Long scheduleId, @Validated @RequestBody ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         return scheduleService.updateSchedule(scheduleId, scheduleUpdateRequestDto);
     }
 
