@@ -44,9 +44,8 @@ public class UserRepository {
                     throw new SQLException("Failed to create user");
                 }
             }
-
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create user", e);
+            throw new IllegalArgumentException("Failed to create user", e);
         }
     }
 
@@ -58,7 +57,7 @@ public class UserRepository {
             preparedStatement.executeUpdate();
             return getUserById(id);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update user", e);
+            throw new IllegalArgumentException("Failed to update user", e);
         }
     }
 
@@ -76,7 +75,7 @@ public class UserRepository {
                 return users;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get users", e);
+            throw new IllegalArgumentException("Failed to get users", e);
         }
     }
 
@@ -97,7 +96,7 @@ public class UserRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get user by id", e);
+            throw new IllegalArgumentException("Failed to get user by id", e);
         }
     }
 }

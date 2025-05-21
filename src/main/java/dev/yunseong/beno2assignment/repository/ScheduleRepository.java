@@ -41,11 +41,11 @@ public class ScheduleRepository {
                     connection.close();
                     return getSchedule(id);
                 } else {
-                    throw new SQLException("Failed to create schedule");
+                    throw new IllegalArgumentException("Failed to create schedule");
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to create schedule", e);
+            throw new IllegalArgumentException("Failed to create schedule", e);
         }
     }
 
@@ -69,7 +69,7 @@ public class ScheduleRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get schedule", e);
+            throw new IllegalArgumentException("Failed to get schedule", e);
         }
         return null;
     }
@@ -82,7 +82,7 @@ public class ScheduleRepository {
             preparedStatement.executeUpdate();
             return getSchedule(id);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update schedule", e);
+            throw new IllegalArgumentException("Failed to update schedule", e);
         }
     }
 
@@ -96,7 +96,7 @@ public class ScheduleRepository {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to delete schedule", e);
+            throw new IllegalArgumentException("Failed to delete schedule", e);
         }
     }
 
@@ -121,7 +121,7 @@ public class ScheduleRepository {
                 return schedules;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get schedules", e);
+            throw new IllegalArgumentException("Failed to get schedules", e);
         }
     }
 
@@ -146,7 +146,7 @@ public class ScheduleRepository {
                 return schedules;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get schedules by userId", e);
+            throw new IllegalArgumentException("Failed to get schedules by userId", e);
         }
     }
 
@@ -172,7 +172,7 @@ public class ScheduleRepository {
                 return schedules;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get schedules by date", e);
+            throw new IllegalArgumentException("Failed to get schedules by date", e);
         }
     }
 
@@ -198,7 +198,7 @@ public class ScheduleRepository {
                 return schedules;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to get schedules by userId and date", e);
+            throw new IllegalArgumentException("Failed to get schedules by userId and date", e);
         }
     }
 }

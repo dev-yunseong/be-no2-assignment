@@ -51,7 +51,12 @@ public class ScheduleController {
     }
 
     @ExceptionHandler(AuthException.class)
-    public ResponseEntity<String> handleIllegalArgument(AuthException ex) {
+    public ResponseEntity<String> handleAuthException(AuthException ex) {
         return new ResponseEntity("password is not correct", HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ResponseEntity("request is not correct", HttpStatus.BAD_REQUEST);
     }
 }
