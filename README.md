@@ -20,3 +20,6 @@ Kakao Tech Campus Assignment
 |ScheduleResponseDto| {id: Long, title: String, content: String, writer: String, createdDate: LocalDateTime, modifiedDate: LocalDateTime} |
 |UserRequestDto| {name: String, email: String}                                                                                       |
 |UserResponseDto| {id: Long, name: String, email: String}                                                                             |
+
+## ERD
+![be-no2-assignment-erd.png](./erd/be-no2-assignment-erd.png)
